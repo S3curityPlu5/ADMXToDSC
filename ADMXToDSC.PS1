@@ -11,7 +11,7 @@
    Now with the advent of Desired State Configuration (DSC) ensuring that the work previously 
    done with regards to configuring registry policy is not lost, is key. ConvertTo-ADMXtoDSC is a cmdlet 
    (advanced function) that was created to address this sceanario. The ConvertTo-ADMXtoDSC cmdlet
-   requires the GroupPolicy PowerShell Module. The GP cmdlets are avaialbe on machines where 
+   requires the GroupPolicy PowerShell Module. The GP cmdlets are *available* on machines where 
    the GPMC is installed. The <gponame>.ps1 file will be opened in the PowerShell ISE as a
    convenience.
 .EXAMPLE
@@ -58,9 +58,9 @@ function ConvertTo-ADMXtoDSC
             )
 
             Write-Verbose "Starting: $($MyInvocation.Mycommand)" 
-            #get policy keys for two main per-computer keys where policy is stored
-            #NOTE that this script could be extended to add HKCU per-user keys but as of today--no good mechanisms exist
-            #for triggering per-user configuration in DSC
+            # get policy keys for two main per-computer keys where policy is stored
+            #NOTE: that this script COULD be extended to add HKCU per-user keys but as of today--no good mechanisms exist
+            # for triggering per-user configuration in DSC, so it is not currently possible to convert user GPOs, Only Computer GPOs can be converted.
             $policies = Recurse_PolicyKeys -key "HKLM\Software\Policies" -gpo $gpo
             
             $policies += Recurse_PolicyKeys -key "HKLM\Software\Microsoft\Windows NT\CurrentVersion" -gpo $gpo
@@ -125,7 +125,7 @@ function ConvertTo-ADMXtoDSC
             Write-Verbose "Saving config to $outputFile"
             "Configuration `"$gpo`"" | out-file -FilePath $outputFile -Encoding unicode
             '{' | out-file -FilePath $outputFile -Append -Encoding unicode
-            "   Import-DscResource –ModuleName PSDesiredStateConfiguration" | out-file -Append -FilePath $outputFile -Encoding unicode
+            "   Import-DscResource ï¿½ModuleName PSDesiredStateConfiguration" | out-file -Append -FilePath $outputFile -Encoding unicode
             'Node localhost' | out-file -FilePath $outputFile -Append -Encoding unicode
             '  {' | out-file -FilePath $outputFile -Append -Encoding unicode
             foreach ($regItem in $policies)
